@@ -11,7 +11,7 @@ import java.io.IOException;
 @WebServlet("/deleteFlight")
 public class DeleteFlightController extends HttpServlet {
 
-    private FlightDAO dao = new FlightDAO();
+    private final FlightDAO dao = new FlightDAO();
 
     public DeleteFlightController() throws Exception {}
 

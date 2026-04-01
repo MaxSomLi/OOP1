@@ -13,7 +13,7 @@ import java.sql.SQLException;
 @WebServlet("/deleteJoin")
 public class DeleteJoinController extends HttpServlet {
 
-    private JoinDAO dao = new JoinDAO();
+    private final JoinDAO dao = new JoinDAO();
 
     public DeleteJoinController() throws Exception {}
 

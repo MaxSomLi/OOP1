@@ -18,7 +18,7 @@ public class DB {
                 return null;
             }
             props.load(input);
-        } catch (IOException ex) {}
+        } catch (IOException ignored) {}
         String USER = props.getProperty("admin.login");
         String PASSWORD = props.getProperty("admin.password");
         return DriverManager.getConnection(URL, USER, PASSWORD);

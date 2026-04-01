@@ -12,7 +12,7 @@ import java.sql.SQLException;
 @WebServlet("/addCrew")
 public class AddCrewController extends HttpServlet {
 
-    private CrewDAO dao = new CrewDAO();
+    private final CrewDAO dao = new CrewDAO();
 
     public AddCrewController() throws Exception {}
 

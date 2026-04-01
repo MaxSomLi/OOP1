@@ -11,7 +11,7 @@ import java.io.IOException;
 @WebServlet("/deleteCrew")
 public class DeleteCrewController extends HttpServlet {
 
-    private CrewDAO dao = new CrewDAO();
+    private final CrewDAO dao = new CrewDAO();
 
     public DeleteCrewController() throws Exception {}
 
@@ -21,4 +21,5 @@ public class DeleteCrewController extends HttpServlet {
         dao.delete(id);
         resp.sendRedirect(req.getContextPath() + "/assign");
     }
+
 }

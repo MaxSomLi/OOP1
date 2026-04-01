@@ -12,7 +12,7 @@ import java.sql.SQLException;
 @WebServlet("/addFlight")
 public class AddFlightController extends HttpServlet {
 
-    private FlightDAO dao = new FlightDAO();
+    private final FlightDAO dao = new FlightDAO();
 
     public AddFlightController() throws Exception {}
 

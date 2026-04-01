@@ -50,13 +50,4 @@ public class AssignController extends HttpServlet {
         req.getRequestDispatcher("/WEB-INF/assign.jsp").forward(req, resp);
     }
 
-    public void create(HttpServletRequest req, HttpServletResponse resp) throws IOException, SQLException {
-        String number = req.getParameter("flightNumber");
-        String origin = req.getParameter("origin");
-        String dest = req.getParameter("destination");
-        String status = req.getParameter("status");
-        flightService.create(number, origin, dest, status);
-        //resp.sendRedirect("/flights");
-    }
-
 }
