@@ -1,6 +1,8 @@
 package com.max.controller;
 
 
+import com.max.dao.CrewDAO;
+import com.max.model.CrewMember;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -9,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Properties;
 
 @WebServlet("/login")
@@ -38,9 +41,27 @@ public class AuthController extends HttpServlet {
         String adminPassword = props.getProperty("admin.password");
         if (adminLogin != null && adminLogin.equals(login) && adminPassword != null && adminPassword.equals(password)) {
             req.getSession().setAttribute("user", login);
+            req.getSession().setAttribute("userRole", 2);
             resp.sendRedirect(req.getContextPath() + "/assign");
         } else {
-            resp.sendRedirect(req.getContextPath() + "/login?error=true");
+            boolean found = false;
+            try {
+                CrewDAO c = new CrewDAO();
+                List<CrewMember> m = c.findAll();
+                for (CrewMember m1 : m) {
+                    if (String.valueOf(m1.getId()).equals(login) && m1.getPassword().equals(password)) {
+                        req.getSession().setAttribute("user", login);
+                        req.getSession().setAttribute("userRole", (m1.isAdmin() ? 1 : 0));
+                        resp.sendRedirect(req.getContextPath() + "/assign");
+                        found = true;
+                    }
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            if (!found) {
+                resp.sendRedirect(req.getContextPath() + "/login?error=true");
+            }
         }
     }
 

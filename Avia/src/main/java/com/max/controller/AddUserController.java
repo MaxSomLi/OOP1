@@ -1,6 +1,7 @@
 package com.max.controller;
 
-import com.max.dao.FlightDAO;
+
+import com.max.dao.UserDAO;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,21 +10,21 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet("/addFlight")
-public class AddFlightController extends HttpServlet {
+@WebServlet("/addUser")
+public class AddUserController extends HttpServlet {
 
-    private final FlightDAO dao = new FlightDAO();
+    private final UserDAO dao = new UserDAO();
 
-    public AddFlightController() throws Exception {}
+    public AddUserController() throws Exception {}
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String number = req.getParameter("number"), origin = req.getParameter("origin"), destination = req.getParameter("destination");
+        String name = req.getParameter("name"), password = req.getParameter("password");
         try {
-            dao.create(number, origin, destination);
+            dao.registerUser(name, password);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        resp.sendRedirect(req.getContextPath() + "/assign");
+        resp.sendRedirect(req.getContextPath() + "/login");
     }
 }

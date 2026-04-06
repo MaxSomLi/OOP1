@@ -5,9 +5,8 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class CrewMember {
-    private int id;
+public class User {
+    int id;
     private String name;
-    private boolean isAdmin;
     private String password;
 }

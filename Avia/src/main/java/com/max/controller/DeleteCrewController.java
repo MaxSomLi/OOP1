@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet("/deleteCrew")
 public class DeleteCrewController extends HttpServlet {
@@ -18,7 +19,11 @@ public class DeleteCrewController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         int id = Integer.parseInt(req.getParameter("id"));
-        dao.delete(id);
+        try {
+            dao.delete(id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         resp.sendRedirect(req.getContextPath() + "/assign");
     }
 

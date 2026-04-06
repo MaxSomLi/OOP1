@@ -11,9 +11,11 @@
             <button type="submit">Login</button>
         </form>
 
-    <% if(request.getParameter("error") != null) { %>
-        <p style="color:red;">Wrong login info</p>
-    <% } %>
+        <% if(request.getParameter("error") != null) { %>
+            <p style="color:red;">Wrong login info</p>
+        <% } %>
+
+        <button onclick="window.location.href='${pageContext.request.contextPath}/register'">Register</button>
 
     </body>
 </html>

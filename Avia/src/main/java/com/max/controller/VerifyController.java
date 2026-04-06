@@ -1,6 +1,8 @@
 package com.max.controller;
 
+
 import com.max.dao.CrewDAO;
+import com.max.dao.UserDAO;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,20 +11,26 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet("/addCrew")
-public class AddCrewController extends HttpServlet {
+@WebServlet("/verify")
+public class VerifyController extends HttpServlet {
 
-    private final CrewDAO dao = new CrewDAO();
+    private final UserDAO dao = new UserDAO();
+    private final CrewDAO cd = new CrewDAO();
 
-    public AddCrewController() throws Exception {}
+    public VerifyController() throws Exception {}
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String name = req.getParameter("name"), password = req.getParameter("password");
+        int id = Integer.parseInt(req.getParameter("id"));
         String isAdminParam = req.getParameter("is_admin");
         boolean isAdmin = (isAdminParam != null && isAdminParam.equals("on"));
+        String verifyParam = req.getParameter("verify");
+        boolean isVerify = (verifyParam != null && verifyParam.equals("on"));
         try {
-            dao.create(name, isAdmin, password);
+            if (isVerify) {
+                cd.verify(id, isAdmin);
+            }
+            dao.removeUser(id);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

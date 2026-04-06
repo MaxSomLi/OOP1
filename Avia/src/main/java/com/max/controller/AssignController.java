@@ -1,11 +1,13 @@
 package com.max.controller;
 
+import com.max.dao.CrewDAO;
+import com.max.dao.FlightDAO;
+import com.max.dao.JoinDAO;
+import com.max.dao.UserDAO;
 import com.max.model.CrewMember;
 import com.max.model.Flight;
 import com.max.model.Join;
-import com.max.service.CrewService;
-import com.max.service.FlightService;
-import com.max.service.JoinService;
+import com.max.model.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -19,34 +21,38 @@ import java.util.List;
 @WebServlet("/assign")
 public class AssignController extends HttpServlet {
 
-    private final FlightService flightService = new FlightService();
-    private final CrewService crewService = new CrewService();
-    private final JoinService joinService = new JoinService();
+    private final FlightDAO flightDAO = new FlightDAO();
+    private final CrewDAO crewDAO = new CrewDAO();
+    private final JoinDAO joinDAO = new JoinDAO();
+    private final UserDAO dao = new UserDAO();
 
     public AssignController() throws Exception {}
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Flight> flights = null;
         try {
-            flights = flightService.getAll();
+            List<Flight> flights = flightDAO.findAll();
+            req.setAttribute("flights", flights);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        req.setAttribute("flights", flights);
-        List<CrewMember> crewMembers = null;
         try {
-            crewMembers = crewService.getAllMembers();
+            List<CrewMember> crewMembers = crewDAO.findAll();
+            req.setAttribute("crewMembers", crewMembers);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        req.setAttribute("crewMembers", crewMembers);
-        List<Join> joins = null;
         try {
-            joins = joinService.getAll();
+            List<Join> joins = joinDAO.findAll();
+            req.setAttribute("flightCrews", joins);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        req.setAttribute("flightCrews", joins);
+        try {
+            List<User> users = dao.allUsers();
+            req.setAttribute("users", users);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         req.getRequestDispatcher("/WEB-INF/assign.jsp").forward(req, resp);
     }
 

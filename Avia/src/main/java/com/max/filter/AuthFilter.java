@@ -23,11 +23,7 @@ public class AuthFilter implements Filter {
         if (isLoggedIn) {
             chain.doFilter(req, resp);
         } else {
-            if (path.equals("/") || path.isEmpty()) {
-                chain.doFilter(request, response);
-            } else {
-                resp.sendRedirect(req.getContextPath() + "/login");
-            }
+            resp.sendRedirect(req.getContextPath() + "/login");
         }
     }
 

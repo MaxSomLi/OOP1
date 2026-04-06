@@ -31,16 +31,14 @@ public class JoinDAO {
     }
 
     public void removeFromFlight(int flightId, int memberId) throws SQLException {
-        String sql = "DELETE FROM flight_crews WHERE flight_id = ? AND crew_id = ?";
-        PreparedStatement stmt = connection.prepareStatement(sql);
+        PreparedStatement stmt = connection.prepareStatement("DELETE FROM flight_crews WHERE flight_id = ? AND crew_id = ?");
         stmt.setInt(1, flightId);
         stmt.setInt(2, memberId);
         stmt.executeUpdate();
     }
 
     public void assignToFlight(int flightId, int crewId) throws SQLException {
-        String sql = "INSERT INTO flight_crews (flight_id, crew_id) VALUES (?, ?)";
-        PreparedStatement stmt = connection.prepareStatement(sql);
+        PreparedStatement stmt = connection.prepareStatement("INSERT INTO flight_crews (flight_id, crew_id) VALUES (?, ?)");
         stmt.setInt(1, flightId);
         stmt.setInt(2, crewId);
         stmt.executeUpdate();

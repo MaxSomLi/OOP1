@@ -11,5 +11,4 @@ public class Flight {
     private String flightNumber;
     private String origin;
     private String destination;
-    private String status;
 }
