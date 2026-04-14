@@ -16,13 +16,19 @@ import java.util.List;
 @WebServlet("/flights")
 public class MyFlightsController extends HttpServlet {
 
-    private final FlightDAO dao = new FlightDAO();
+    private FlightDAO dao;
 
-    public MyFlightsController() throws Exception {}
+    public MyFlightsController() throws Exception {
+        this.dao = new FlightDAO();
+    }
+
+    public MyFlightsController(FlightDAO dao) {
+        this.dao = dao;
+    }
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            List<Flight> flights = dao.findCrewFlights(Integer.parseInt(String.valueOf(req.getSession().getAttribute("user"))));
+            List<Flight> flights = dao.findCrewFlights(String.valueOf(req.getSession().getAttribute("user")));
             req.setAttribute("myFlights", flights);
         } catch (SQLException e) {
             throw new RuntimeException(e);

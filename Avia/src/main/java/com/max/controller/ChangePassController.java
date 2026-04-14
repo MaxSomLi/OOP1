@@ -12,15 +12,29 @@ import java.io.IOException;
 @WebServlet("/changePass")
 public class ChangePassController extends HttpServlet {
 
+    private CrewDAO dao;
 
-    private final CrewDAO dao = new CrewDAO();
+    public ChangePassController() throws Exception {
+        this.dao = new CrewDAO();
+    }
 
-    public ChangePassController() throws Exception {}
+    public ChangePassController(CrewDAO dao) {
+        this.dao = dao;
+    }
+
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("/WEB-INF/pass.jsp").forward(req, resp);
+    }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        String pass = req.getParameter("pass");
+        String old = req.getParameter("old"), newP = req.getParameter("new"), con = req.getParameter("con"),name = String.valueOf(req.getSession().getAttribute("user"));
         try {
-            dao.updatePassword(pass, Integer.parseInt(String.valueOf(req.getSession().getAttribute("user"))));
+            String co = dao.findPassword(name);
+            if (co.equals(old) && con.equals(newP)) {
+                dao.updatePassword(newP, name);
+            } else {
+                resp.sendRedirect(req.getContextPath() + "/changePass?error=true");
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

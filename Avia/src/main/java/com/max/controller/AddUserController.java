@@ -13,9 +13,15 @@ import java.sql.SQLException;
 @WebServlet("/addUser")
 public class AddUserController extends HttpServlet {
 
-    private final UserDAO dao = new UserDAO();
+    private UserDAO dao;
 
-    public AddUserController() throws Exception {}
+    public AddUserController() throws Exception {
+        this.dao = new UserDAO();
+    }
+
+    public AddUserController(UserDAO dao) {
+        this.dao = dao;
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {

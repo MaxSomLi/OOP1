@@ -12,9 +12,15 @@ import java.sql.SQLException;
 @WebServlet("/deleteCrew")
 public class DeleteCrewController extends HttpServlet {
 
-    private final CrewDAO dao = new CrewDAO();
+    private CrewDAO dao;
 
-    public DeleteCrewController() throws Exception {}
+    public DeleteCrewController() throws Exception {
+        this.dao = new CrewDAO();
+    }
+
+    public DeleteCrewController(CrewDAO dao) {
+        this.dao = dao;
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {

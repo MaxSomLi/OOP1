@@ -21,12 +21,24 @@ import java.util.List;
 @WebServlet("/assign")
 public class AssignController extends HttpServlet {
 
-    private final FlightDAO flightDAO = new FlightDAO();
-    private final CrewDAO crewDAO = new CrewDAO();
-    private final JoinDAO joinDAO = new JoinDAO();
-    private final UserDAO dao = new UserDAO();
+    private FlightDAO flightDAO;
+    private CrewDAO crewDAO;
+    private JoinDAO joinDAO;
+    private UserDAO dao;
 
-    public AssignController() throws Exception {}
+    public AssignController() throws Exception {
+        flightDAO = new FlightDAO();
+        crewDAO = new CrewDAO();
+        joinDAO = new JoinDAO();
+        dao = new UserDAO();
+    }
+
+    public AssignController(FlightDAO flightDAO, CrewDAO crewDAO, JoinDAO joinDAO, UserDAO dao) {
+        this.flightDAO = flightDAO;
+        this.crewDAO = crewDAO;
+        this.joinDAO = joinDAO;
+        this.dao = dao;
+    }
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {

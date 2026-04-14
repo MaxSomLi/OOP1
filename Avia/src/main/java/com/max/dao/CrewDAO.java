@@ -12,11 +12,22 @@ public class CrewDAO {
 
     public CrewDAO() throws Exception {}
 
-    public void updatePassword(String password, int id) throws Exception {
-        PreparedStatement stmt = connection.prepareStatement("UPDATE crew_members SET PASSWORD = ? WHERE ID = ?");
+    public void updatePassword(String password, String name) throws Exception {
+        PreparedStatement stmt = connection.prepareStatement("UPDATE crew_members SET password = ? WHERE name = ?");
         stmt.setString(1, password);
-        stmt.setInt(2, id);
+        stmt.setString(2, name);
         stmt.executeUpdate();
+    }
+
+    public String findPassword(String name) throws Exception {
+        PreparedStatement stmt = connection.prepareStatement("SELECT password FROM crew_members WHERE name = ?");
+        stmt.setString(1, name);
+        ResultSet rs = stmt.executeQuery();
+        String p = "";
+        while (rs.next()) {
+            p = rs.getString("password");
+        }
+        return p;
     }
 
     public void create(String name, boolean isAdmin, String password) throws SQLException {

@@ -18,6 +18,15 @@ import java.util.Properties;
 public class AuthController extends HttpServlet {
 
     protected final String url = "/WEB-INF/login.jsp";
+    private CrewDAO dao;
+
+    public AuthController() throws Exception {
+        this.dao = new CrewDAO();
+    }
+
+    public AuthController(CrewDAO dao) {
+        this.dao = dao;
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -46,10 +55,9 @@ public class AuthController extends HttpServlet {
         } else {
             boolean found = false;
             try {
-                CrewDAO c = new CrewDAO();
-                List<CrewMember> m = c.findAll();
+                List<CrewMember> m = dao.findAll();
                 for (CrewMember m1 : m) {
-                    if (String.valueOf(m1.getId()).equals(login) && m1.getPassword().equals(password)) {
+                    if (String.valueOf(m1.getName()).equals(login) && m1.getPassword().equals(password)) {
                         req.getSession().setAttribute("user", login);
                         req.getSession().setAttribute("userRole", (m1.isAdmin() ? 1 : 0));
                         resp.sendRedirect(req.getContextPath() + "/assign");

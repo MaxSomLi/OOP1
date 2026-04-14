@@ -14,11 +14,11 @@ public class FlightDAO {
     public FlightDAO() throws Exception {}
 
 
-    public List<Flight> findCrewFlights(int id) throws SQLException {
+    public List<Flight> findCrewFlights(String name) throws SQLException {
         List<Flight> list = new ArrayList<>();
-        String sql = "SELECT * FROM flights WHERE id IN (SELECT flight_id FROM flight_crews WHERE crew_id = ?)";
+        String sql = "SELECT * FROM flights WHERE id IN (SELECT flight_id FROM flight_crews WHERE crew_id IN (SELECT id FROM crew_members WHERE name = ?))";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setInt(1, id);
+            pstmt.setString(1, name);
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     Flight f = new Flight();

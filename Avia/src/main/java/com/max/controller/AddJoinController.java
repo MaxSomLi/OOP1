@@ -13,9 +13,15 @@ import java.sql.SQLException;
 @WebServlet("/addJoin")
 public class AddJoinController extends HttpServlet {
 
-    private final JoinDAO dao = new JoinDAO();
+    private JoinDAO dao;
 
-    public AddJoinController() throws Exception {}
+    public AddJoinController() throws Exception {
+        this.dao = new JoinDAO();
+    }
+
+    public AddJoinController(JoinDAO dao) {
+        this.dao = dao;
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {

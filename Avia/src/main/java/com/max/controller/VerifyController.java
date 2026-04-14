@@ -14,10 +14,19 @@ import java.sql.SQLException;
 @WebServlet("/verify")
 public class VerifyController extends HttpServlet {
 
-    private final UserDAO dao = new UserDAO();
-    private final CrewDAO cd = new CrewDAO();
+    private UserDAO dao;
+    private CrewDAO cd;
 
-    public VerifyController() throws Exception {}
+    public VerifyController() throws Exception {
+        this.dao = new UserDAO();
+        this.cd = new CrewDAO();
+    }
+
+    public VerifyController(UserDAO dao, CrewDAO cd) {
+        this.dao = dao;
+        this.cd = cd;
+    }
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
